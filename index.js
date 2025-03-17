@@ -1,5 +1,12 @@
-function add(a =1, b=2) {
-  console.log('aaaaaa',a,b)
-  return a + b;
+function add(event) {
+  console.log('Event:', event);
+
+  let { a = 1, b = 2 } = event?.body ? JSON.parse(event.body) : {};
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ result: a + b }),
+  };
 }
-module.exports = add;
+
+module.exports.add = add;
