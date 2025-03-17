@@ -1,0 +1,14 @@
+service: my-lambda-service
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+
+functions:
+  myFunction:
+    handler: handler.main
+    events:
+      - http:
+          path: hello
+          method: get
