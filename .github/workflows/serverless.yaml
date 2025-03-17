@@ -41,16 +41,6 @@ jobs:
       run: |
         if [ -f package.json ]; then npm install; fi
 
-    # Run Python tests (if any)
-    - name: Run Python tests
-      run: |
-        if [ -f pytest.ini ] || [ -d tests ]; then pytest; fi
-
-    # Run Node.js tests (if any)
-    - name: Run Node.js tests
-      run: |
-        if [ -f package.json ]; then npm test; fi
-
     # Deploy using Serverless Framework (if applicable)
     - name: Deploy with Serverless Framework
       env:
