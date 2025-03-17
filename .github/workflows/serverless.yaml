@@ -1,0 +1,61 @@
+name: Node.js and Python Application
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Set up Python environment
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+
+    # Set up Node.js environment
+    - name: Set up Node.js 18
+      uses: actions/setup-node@v3
+      with:
+        node-version: "18"
+
+    # Install Python dependencies
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    # Install Node.js dependencies
+    - name: Install Node.js dependencies
+      run: |
+        if [ -f package.json ]; then npm install; fi
+
+    # Run Python tests (if any)
+    - name: Run Python tests
+      run: |
+        if [ -f pytest.ini ] || [ -d tests ]; then pytest; fi
+
+    # Run Node.js tests (if any)
+    - name: Run Node.js tests
+      run: |
+        if [ -f package.json ]; then npm test; fi
+
+    # Deploy using Serverless Framework (if applicable)
+    - name: Deploy with Serverless Framework
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: |
+        npm install -g serverless
+        serverless deploy
