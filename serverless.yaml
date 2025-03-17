@@ -7,7 +7,7 @@ provider:
 
 functions:
   myFunction:
-    handler: handler.main
+    handler: index.add
     events:
       - http:
           path: hello
