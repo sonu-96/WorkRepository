@@ -1,30 +1,25 @@
-# NOTE: This would need to be in the root of the repo to use it
-# I placed it here because it is associated with this video
-
 name: Lint Code Base
 
 on:
   push:
     branches-ignore: [main]
-    # Remove the line above to run when pushing to master
   pull_request:
     branches: [main]
 
 jobs:
-  build:
+  lint:
     name: Lint Code Base
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4  # Updated to v4 for better performance
         with:
-          # Full git history is needed to get a proper list of changed files within `super-linter`
-          fetch-depth: 0
+          fetch-depth: 0  # Required for `super-linter`
 
-      - name: Lint Code Base
-        uses: github/super-linter@v3
+      - name: Run Super-Linter
+        uses: super-linter/super-linter@latest  # Use latest stable version
         env:
           VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: master
+          DEFAULT_BRANCH: main  # Change to `main` since you use `main` in PRs
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
