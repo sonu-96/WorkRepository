@@ -2,7 +2,7 @@ name: Node.js and Python Application
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   build:
